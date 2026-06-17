@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0A0F1E;
+  --navy-mid:#111827;
+  --navy-light:#1a2235;
+  --teal:#00C9B1;
+  --violet:#8B6FD4;
+  --slate:#8A9BBF;
+  --slate-light:#b4c1d8;
+  --cream:#F0F4FF;
+  --cream-dim:#c8d3ee;
+  --white:#ffffff;
+  --border:rgba(138,155,191,0.18);
+  --border-light:rgba(138,155,191,0.10);
+}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:15px;line-height:1.7;min-height:100vh}
+
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:100vh;max-width:1080px;margin:0 auto}
+
+/* SIDEBAR */
+.sidebar{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:2.5rem 1.75rem;border-right:1px solid var(--border);overflow:hidden;flex-shrink:0}
+.avatar-wrap{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--violet) 0%,var(--teal) 100%);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:19px;color:var(--white);margin-bottom:1rem;flex-shrink:0}
+.sidebar-name{font-family:'Syne',sans-serif;font-weight:800;font-size:17px;color:var(--white);line-height:1.2;margin-bottom:0.2rem}
+.sidebar-role{font-size:11px;font-weight:300;color:var(--slate);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:0.25rem;line-height:1.5}
+.sidebar-inst{font-size:11px;color:var(--teal);font-weight:400;margin-bottom:2rem}
+
+nav{display:flex;flex-direction:column;gap:1px;margin-bottom:auto}
+.nav-section-label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--slate);opacity:0.5;margin:1rem 0 0.3rem 10px}
+nav a{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:7px;color:var(--slate);text-decoration:none;font-size:13px;font-weight:400;letter-spacing:0.02em;transition:color .15s,background .15s;cursor:pointer}
+nav a:hover{color:var(--cream);background:var(--border-light)}
+nav a.active{color:var(--teal);background:rgba(0,201,177,0.09)}
+nav a .dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+
+.social-links{display:flex;gap:8px;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border)}
+.social-links a{font-size:10px;letter-spacing:0.06em;text-transform:uppercase;color:var(--slate);text-decoration:none;font-weight:500;padding:5px 9px;border:1px solid var(--border);border-radius:6px;transition:color .15s,border-color .15s}
+.social-links a:hover{color:var(--teal);border-color:var(--teal)}
+
+/* PAGES */
+main{padding:2.5rem 2.75rem 4rem;overflow-x:hidden}
+.page{display:none}
+.page.active{display:block}
+section{margin-bottom:4.5rem}
+
+.section-label{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--violet);font-weight:500;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);max-width:70px}
+
+/* HERO */
+canvas#wave{width:100%;height:54px;display:block;margin-bottom:1.75rem}
+.status-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border:1px solid rgba(0,201,177,0.3);border-radius:100px;font-size:12px;color:var(--teal);font-weight:400;margin-bottom:2rem;background:rgba(0,201,177,0.05)}
+.status-badge .pulse{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.hero-headline{font-family:'Syne',sans-serif;font-weight:800;font-size:40px;line-height:1.05;color:var(--white);margin-bottom:0.4rem}
+.hero-headline .teal{color:var(--teal)}
+.hero-tagline{font-size:15px;color:var(--slate-light);font-weight:300;max-width:500px;line-height:1.8;margin-bottom:1.75rem}
+.hero-bio{font-size:15px;color:var(--cream-dim);max-width:540px;line-height:1.8;margin-bottom:1.5rem;font-weight:300}
+.hero-bio strong{color:var(--cream);font-weight:500}
+
+/* PUBLICATIONS */
+.pub-card{display:block;padding:1.1rem 1.4rem;border:1px solid var(--border);border-radius:11px;margin-bottom:0.85rem;background:var(--navy-light);text-decoration:none;transition:border-color .2s,background .2s;position:relative;overflow:hidden}
+.pub-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--violet);border-radius:3px 0 0 3px}
+.pub-card:hover{border-color:rgba(139,111,212,.5);background:rgba(139,111,212,.06)}
+.pub-meta{display:flex;gap:7px;align-items:center;margin-bottom:0.45rem;flex-wrap:wrap}
+.pub-year{font-size:11px;letter-spacing:.1em;color:var(--teal);font-weight:500}
+.pub-journal{font-size:11px;color:var(--slate);background:var(--border-light);padding:2px 7px;border-radius:4px;border:1px solid var(--border)}
+.pub-q1{font-size:10px;color:var(--teal);background:rgba(0,201,177,.08);padding:2px 7px;border-radius:4px;border:1px solid rgba(0,201,177,.25);font-weight:500}
+.pub-title{font-size:14px;font-weight:500;color:var(--cream);line-height:1.5;margin-bottom:0.25rem}
+.pub-authors{font-size:12px;color:var(--slate);font-style:italic;font-weight:300}
+
+/* NEWS */
+.news-item{display:grid;grid-template-columns:88px 1fr;gap:1rem;padding:.9rem 0;border-bottom:1px solid var(--border-light)}
+.news-item:last-child{border-bottom:none}
+.news-date{font-size:11px;color:var(--teal);font-weight:500;letter-spacing:.04em;padding-top:2px}
+.news-text{font-size:14px;color:var(--cream-dim);font-weight:300;line-height:1.6}
+.news-text a{color:var(--violet);text-decoration:none}
+.news-text a:hover{color:var(--teal)}
+
+/* HOBBIES */
+.hobby-block{margin-bottom:3rem}
+.hobby-title{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--white);margin-bottom:0.35rem}
+.hobby-desc{font-size:14px;color:var(--slate-light);font-weight:300;margin-bottom:1.25rem;max-width:480px}
+
+.writing-item{display:flex;align-items:flex-start;gap:10px;padding:.75rem 1rem;border-radius:8px;border:1px solid var(--border);background:var(--navy-light);margin-bottom:6px;text-decoration:none;transition:border-color .15s,background .15s}
+.writing-item:hover{border-color:rgba(0,201,177,.35);background:rgba(0,201,177,.04)}
+.writing-item .arrow{color:var(--teal);font-size:13px;margin-top:1px;flex-shrink:0;opacity:.7}
+.writing-item .writing-text{font-size:13.5px;color:var(--cream-dim);font-weight:300;line-height:1.5}
+.writing-item:hover .writing-text{color:var(--cream)}
+.writing-badge{display:inline-block;font-size:10px;color:var(--slate);background:var(--border-light);border:1px solid var(--border);padding:1px 7px;border-radius:4px;margin-bottom:3px;font-weight:400;letter-spacing:.04em}
+
+.pl-card{display:inline-flex;align-items:center;gap:12px;padding:.85rem 1.2rem;border:1px solid var(--border);border-radius:10px;background:var(--navy-light)}
+.pl-rank{font-family:'Syne',sans-serif;font-weight:800;font-size:28px;color:var(--teal);line-height:1}
+.pl-info{font-size:13px;color:var(--slate-light);font-weight:300;line-height:1.4}
+.pl-info strong{display:block;color:var(--cream);font-weight:500;font-size:14px}
+
+.meme-note{font-size:13px;color:var(--slate);font-weight:300;font-style:italic;padding:.6rem 1rem;border-left:2px solid var(--border);line-height:1.6;margin-bottom:.5rem}
+
+/* IMAGE PLACEHOLDER */
+.img-placeholder{width:100%;max-width:440px;aspect-ratio:4/3;border:1px dashed rgba(139,111,212,.35);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--violet);font-size:12px;font-weight:400;letter-spacing:.06em;text-transform:uppercase;background:rgba(139,111,212,.04);margin-bottom:1rem}
+.img-placeholder .icon{font-size:22px;opacity:.5}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+.contact-card{padding:1.1rem 1.25rem;border:1px solid var(--border);border-radius:10px;background:var(--navy-light)}
+.contact-card-label{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);margin-bottom:.3rem}
+.contact-card-value{font-size:14px;color:var(--cream);font-weight:400}
+.contact-card-value a{color:var(--teal);text-decoration:none}
+.contact-card-value a:hover{text-decoration:underline}
+
+.footer-note{font-size:11px;color:var(--slate);padding-top:2rem;border-top:1px solid var(--border);opacity:.6}
+</style>
+</head>
+<body>
+<div class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <img src="profile.png" alt="Arman Sykot" style="width:180px;height:180px;border-radius:50%;object-fit:cover;margin-bottom:1rem;flex-shrink:0;" />
+    <div class="sidebar-name">Arman Sykot</div>
+    <div class="sidebar-role">Grad. Researcher · MS-PhD</div>
+    <div class="sidebar-inst">Korea University · Seoul</div>
+
+    <nav>
+      <div class="nav-section-label">Pages</div>
+      <a class="active" onclick="showPage('home')"><span class="dot"></span>Home</a>
+      <a onclick="showPage('hobbies')"><span class="dot"></span>Hobbies</a>
+      <a onclick="showPage('contact')"><span class="dot"></span>Contact</a>
+    </nav>
+
+    <div class="social-links">
+      <a href="https://scholar.google.com/citations?user=CH59or4AAAAJ&hl=en" target="_blank">Scholar</a>
+      <a href="https://orcid.org/0009-0004-6158-6292" target="_blank">ORCID</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HOME PAGE -->
+    <div class="page active" id="page-home">
+
+      <section id="about">
+        <canvas id="wave"></canvas>
+        <div class="status-badge">
+          <span class="pulse"></span>
+          Actively researching · Spin Qubit Quantum Computation
+        </div>
+        <h1 class="hero-headline">Quantum<br><span class="teal">Physics</span> &amp;<br>Information</h1>
+        <p class="hero-tagline">Exploring the strange, beautiful logic of the quantum world — where entanglement and superposition aren't science fiction, they're the substrate.</p>
+        <p class="hero-bio">I'm a <strong>Graduate Student Researcher</strong> in the <strong>Quantum Sensing and Imaging Lab (QuSI)</strong> at Korea University, pursuing an Integrated MS-PhD in Physics with a major in Quantum Information Physics. My current research focuses on <strong>quantum computation based on spin qubits</strong>.</p>
+        <p class="hero-bio">Previously, I was a Research Assistant at the <strong>NSU Center of Quantum Computing (NCQC)</strong>, where I worked on quantum cryptography and key distribution protocols.</p>
+      </section>
+
+      <section id="publications">
+        <div class="section-label">Selected Works</div>
+        <a class="pub-card" href="https://doi.org/10.1155/que2/6079632" target="_blank">
+          <div class="pub-meta">
+            <span class="pub-year">2025</span>
+            <span class="pub-journal">Quantum Engineering · Wiley</span>
+          </div>
+          <div class="pub-title">Combining Entangled and Non-Entangled Based Quantum Key Distribution Protocol With GHZ State</div>
+          <div class="pub-authors">A Sykot, MH Rahman, RT Anannya, MRC Mahdy</div>
+        </a>
+        <a class="pub-card" href="https://doi.org/10.1016/j.aej.2025.02.056" target="_blank">
+          <div class="pub-meta">
+            <span class="pub-year">2025</span>
+            <span class="pub-journal">Alexandria Engineering Journal</span>
+            <span class="pub-q1">Q1 · IF 6.8</span>
+          </div>
+          <div class="pub-title">Multi-layered security system: Integrating quantum key distribution with classical cryptography to enhance steganographic security</div>
+          <div class="pub-authors">A Sykot, MS Azad, WR Tanha, BMM Morshed, SEU Shubha, MRC Mahdy</div>
+        </a>
+      </section>
+
+      <section id="news">
+        <div class="section-label">News</div>
+        <div class="news-item"><div class="news-date">Mar 2026</div><div class="news-text">Joined <a href="https://qdl.korea.ac.kr" target="_blank">Quantum Sensing and Imaging Lab (QuSI)</a> under Professor Donghun Lee at Korea University, Seoul.</div></div>
+        <div class="news-item"><div class="news-date">Sep 2025</div><div class="news-text">"Combining Entangled and Non-Entangled Based QKD Protocol With GHZ State" accepted in Quantum Engineering by Wiley.</div></div>
+        <div class="news-item"><div class="news-date">Jul 2025</div><div class="news-text">Delivered a presentation on quantum cryptography and communications at NCQC based on my own research.</div></div>
+        <div class="news-item"><div class="news-date">Jul 2025</div><div class="news-text">A team from MIST (Military Institute of Science and Technology) visited NSU Center of Quantum Computing.</div></div>
+        <div class="news-item"><div class="news-date">Jul 2025</div><div class="news-text">Joined as Research Assistant at <a href="https://sites.google.com/view/nsu-center-quantum-computing/home" target="_blank">NSU Center of Quantum Computing (NCQC)</a>.</div></div>
+        <div class="news-item"><div class="news-date">Feb 2025</div><div class="news-text">"Multi-layered security system: Integrating QKD with classical cryptography…" accepted in Alexandria Engineering Journal (Q1, IF 6.8).</div></div>
+        <div class="news-item"><div class="news-date">Jan 2025</div><div class="news-text">Joined as Research Assistant at NSU Optics Lab.</div></div>
+        <div class="news-item"><div class="news-date">Dec 2024</div><div class="news-text">Graduated from North South University with a BSc in Computer Science Engineering.</div></div>
+        <div class="news-item"><div class="news-date">May 2024</div><div class="news-text">Project "Quantum Secure Image Data Encryption System" selected for NSU ACM SC Innovation Challenge Season 14 (Top 15).</div></div>
+      </section>
+
+      <div class="footer-note">© 2026 Arman Sykot · All rights reserved</div>
+    </div>
+
+    <!-- HOBBIES PAGE -->
+    <div class="page" id="page-hobbies">
+      <section>
+        <div class="section-label">Hobbies</div>
+
+        <!-- Memes -->
+        <div class="hobby-block">
+          <div class="hobby-title">Memes</div>
+          <p class="hobby-desc">Sometimes the best way to explain quantum physics is a well-placed meme.</p>
+
+          <div style="display:flex;flex-direction:column;gap:1.25rem">
+            <div>
+              <!-- REPLACE the div below with an <img> tag to add your meme -->
+              <img src="meme1.jpg" alt="Density matrix meme" style="width:100%;max-width:440px;border-radius:10px;display:block;margin-bottom:1rem;" />
+              <p class="meme-note">The statevector formalism is the standard way to describe a single quantum state — but the density matrix formalism is necessary to handle complex "mixed states," which are statistical ensembles of multiple quantum states.</p>
+            </div>
+            <div>
+              <!-- REPLACE the div below with an <img> tag to add your meme -->
+              <img src="meme2.jpg" alt="Quantum computing meme" style="width:100%;max-width:440px;border-radius:10px;display:block;margin-bottom:1rem;" />
+              <p class="meme-note">"BS" is not the same for everyone — it's a matter of perspective. :)</p>
+            </div>
+            <div>
+              <!-- REPLACE the div below with an <img> tag to add your meme -->
+              <img src="meme3.jpg" alt="Quantum entanglement meme" style="width:100%;max-width:440px;border-radius:10px;display:block;margin-bottom:1rem;" />
+              <p class="meme-note">One is a quantum computer and another is a Bangladeshi meditation center.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Science Writing -->
+        <div class="hobby-block">
+          <div class="hobby-title">Science Writing</div>
+          <p class="hobby-desc">I write about quantum physics and technology at <a href="http://biggani.org" target="_blank" style="color:var(--teal);text-decoration:none">Biggani.org</a> — a Bengali-language platform covering the latest in science and tech for Bengali-speaking audiences.</p>
+
+          <a class="writing-item" href="https://biggani.org/%f0%9f%8c%9f-%e0%a6%95%e0%a7%8b%e0%a6%af%e0%a6%bc%e0%a6%be%e0%a6%a8%e0%a7%8d%e0%a6%9f%e0%a6%be%e0%a6%ae-%e0%a6%8f%e0%a6%ac%e0%a6%82-%e0%a6%a1%e0%a6%be%e0%a6%af%e0%a6%bc%e0%a6%ae%e0%a6%a8%e0%a7%8d/" target="_blank">
+            <span class="arrow">&#8599;</span>
+            <div><div class="writing-badge">Bengali</div><div class="writing-text">&#2453;&#2507;&#2479;&#2492;&#2494;&#2472;&#2509;&#2463;&#2494;&#2478; &#2447;&#2476;&#2434; &#2465;&#2494;&#2479;&#2492;&#2478;&#2472;&#2509;&#2465;: &#2476;&#2495;&#2332;&#2509;&#2462;&#2494;&#2472;&#2503;&#2480; &#2447;&#2453; &#2451;&#2477;&#2494;&#2476;&#2472;&#2496;&#2479;&#2492; &#2474;&#2509;&#2480;&#2503;&#2478;&#2453;&#2494;&#2489;&#2495;&#2472;&#2495;<br><span style="font-size:12px;color:var(--slate)">Quantum and Diamond: An Unimaginable Love Story of Science</span></div></div>
+          </a>
+          <a class="writing-item" href="https://biggani.org/superdeterminism/" target="_blank">
+            <span class="arrow">&#8599;</span>
+            <div><div class="writing-badge">Bengali</div><div class="writing-text">Superdeterminism</div></div>
+          </a>
+          <a class="writing-item" href="https://biggani.org/%e0%a6%b8%e0%a6%9f%e0%a6%95-%e0%a6%8f%e0%a6%95%e0%a6%b8%e0%a6%9a%e0%a6%9e%e0%a6%9c-%e0%a6%95%e0%a6%af%e0%a6%a8%e0%a7%8d%e0%a6%9f%e0%a6%ae-%e0%a6%95%e0%a6%ae%e0%a6%aa%e0%a6%89%e0%a6%9f-%e0%a6%a6%e0%a6%b8/" target="_blank">
+            <span class="arrow">&#8599;</span>
+            <div><div class="writing-badge">Bengali</div><div class="writing-text">&#2488;&#2509;&#2463;&#2453; &#2447;&#2453;&#2509;&#2488;&#2458;&#2503;&#2434;&#2479;&#2492;&#2503; &#2453;&#2507;&#2479;&#2492;&#2494;&#2472;&#2509;&#2463;&#2494;&#2478; &#2453;&#2478;&#2509;&#2474;&#2495;&#2�;&#2495;&#2434; &#2470;&#2497;&#2499;&#2488;&#2509;&#2476;&#2474;&#2509;&#2472;&#2503;&#2480; &#2332;&#2472;&#2509;&#2479;&#2492; &#2474;&#2509;&#2480;&#2488;&#2509;&#2468;&#2497;&#2468;&#2495;: &#2453;&#2495;&#2989;-&#2465;&#2503; (Q-Day) &#2453;&#2496;?<br><span style="font-size:12px;color:var(--slate)">Stock Exchange Prepares for Quantum Computing Nightmare: What is Q-Day?</span></div></div>
+          </a>
+          <a class="writing-item" href="https://biggani.org/%e0%a6%ac%e0%a6%be%e0%a6%b8%e0%a7%8d%e0%a6%a4%e0%a6%ac%e0%a6%a4%e0%a6%be%e0%a6%b0-%e0%a6%b8%e0%a7%8d%e0%a6%a5%e0%a6%aa%e0%a6%a4%e0%a6%bf-%e0%a6%a1%e0%a7%87%e0%a6%ad%e0%a6%bf%e0%a6%a1-%e0%a6%a1/" target="_blank">
+            <span class="arrow">&#8599;</span>
+            <div><div class="writing-badge">Bengali</div><div class="writing-text">&#2476;&#2494;&#2488;&#2509;&#2468;&#2476;&#2468;&#2494;&#2480; &#2488;&#2509;&#2469;&#2474;&#2468;&#2495;: &#2465;&#2503;&#2477;&#2495;&#2465; &#2465;&#2479;&#2492;&#2503;&#2458; &#2447;&#2476;&#2434; &#2453;&#2507;&#2479;&#2492;&#2494;&#2472;&#2509;&#2463;&#2494;&#2478; &#2453;&#2478;&#2509;&#2474;&#2495;&#2009;&#2494;&#2480;&#2503;&#2480; &#2488;&#2509;&#2476;&#2474;&#2509;&#2472;&#2479;&#2494;&#2468;&#2509;&#2480;&#2494;<br><span style="font-size:12px;color:var(--slate)">Architect of Reality: David Deutsch and the Dream Journey of the Quantum Computer</span></div></div>
+          </a>
+          <a class="writing-item" href="https://biggani.org/%e0%a6%95%e0%a7%8b%e0%a6%af%e0%a6%bc%e0%a6%be%e0%a6%a8%e0%a7%8d%e0%a6%9f%e0%a6%be%e0%a6%ae-%e0%a6%af%e0%a7%81%e0%a6%97%e0%a7%87%e0%a6%b0-%e0%a6%a6%e0%a7%8c%e0%a6%a1%e0%a6%bc/" target="_blank">
+            <span class="arrow">&#8599;</span>
+            <div><div class="writing-badge">Bengali</div><div class="writing-text">&#2453;&#2507;&#2479;&#2492;&#2494;&#2472;&#2509;&#2463;&#2494;&#2478; &#2479;&#2497;&#2455;&#2503;&#2480; &#2470;&#2508;&#2524;: &#2488;&#2494;&#2439;&#2476;&#2494;&#2480; &#2472;&#2495;&#2480;&#2494;&#2474;&#2468;&#2509;&#2468;&#2494;&#2479;&#2492; &#2472;&#2468;&#2497;&#2472; &#2478;&#2494;&#2472;&#2470;&#2472;&#2509;&#2465; &#2451; &#2474;&#2509;&#2480;&#2488;&#2509;&#2468;&#2497;&#2468;&#2495;&#2480; &#2474;&#2509;&#2480;&#2479;&#2492;&#2507;&#2332;&#2472;&#2496;&#2479;&#2492;&#2468;&#2494;<br><span style="font-size:12px;color:var(--slate)">The Race of the Quantum Age: New Standards &amp; Needs in Cybersecurity</span></div></div>
+          </a>
+          <a class="writing-item" href="https://biggani.org/%e0%a6%89%e0%a6%87%e0%a6%b2%e0%a7%8b%e0%a6%95%e0%a7%87-%e0%a6%b8%e0%a7%8d%e0%a6%ac%e0%a6%be%e0%a6%97%e0%a6%a4%e0%a6%aewelcome-willow-%e0%a6%97%e0%a7%81%e0%a6%97%e0%a6%b2%e0%a7%87%e0%a6%b0-%e0%a6%b8/" target="_blank">
+            <span class="arrow">&#8599;</span>
+            <div><div class="writing-badge">Bengali</div><div class="writing-text">&#2441;&#2439;&#2482;&#2507;&#2453;&#2503; &#2488;&#2509;&#2476;&#2494;&#2455;&#2468;&#2478; (Welcome Willow), &#2455;&#2497;&#2455;&#2482;&#2503;&#2480; &#2488;&#2480;&#2509;&#2476;&#2494;&#2471;&#2497;&#2472;&#2495;&#2453; &#2453;&#2507;&#2479;&#2492;&#2494;&#2472;&#2509;&#2463;&#2494;&#2478; &#2458;&#2495;&#2474;<br><span style="font-size:12px;color:var(--slate)">Welcome Willow — Google's most advanced quantum chip</span></div></div>
+          </a>
+          <a class="writing-item" href="https://biggani.org/%e0%a6%ac%e0%a6%bf%e0%a6%9c%e0%a7%8d%e0%a6%9e%e0%a6%be%e0%a6%a8%e0%a7%80%e0%a6%b0%e0%a6%be-%e0%a6%aa%e0%a7%8d%e0%a6%b0%e0%a6%a5%e0%a6%ae%e0%a6%ac%e0%a6%be%e0%a6%b0%e0%a7%87%e0%a6%b0-%e0%a6%ae%e0%a6%a4/" target="_blank">
+            <span class="arrow">&#8599;</span>
+            <div><div class="writing-badge">Bengali</div><div class="writing-text">&#2476;&#2495;&#2332;&#2509;&#2462;&#2494;&#2472;&#2496;&#2480;&#2494; &#2474;&#2509;&#2480;&#2469;&#2478;&#2476;&#2494;&#2480;&#2503;&#2480; &#2478;&#2468;&#2507; &#2447;&#2453;&#2463;&#2495; &#2447;&#2453;&#2453; &#2475;&#2507;&#2463;&#2472;&#2503;&#2480; &#2488;&#2464;&#2495;&#2453; &#2438;&#2453;&#2499;&#2468;&#2495; &#2472;&#2495;&#2480;&#2509;&#2471;&#2494;&#2480;&#2467; &#2453;&#2480;&#2503;&#2459;&#2503;&#2472;<br><span style="font-size:12px;color:var(--slate)">Scientists determine the exact shape of a single photon for the first time</span></div></div>
+          </a>
+        </div>
+
+        <!-- Powerlifting -->
+        <div class="hobby-block">
+          <div class="hobby-title">Powerlifting</div>
+          <p class="hobby-desc">Competed in a bench press competition and placed 8th.</p>
+          <div class="pl-card">
+            <div class="pl-rank">8th</div>
+            <div class="pl-info">
+              <strong>Bench Press Competition</strong>
+              Competitive powerlifting
+            </div>
+          </div>
+          <br><br>
+          <!-- REPLACE the div below with an <img> tag to add your photo -->
+          <!-- Example: <img src="powerlifting.jpg" alt="Bench press competition" style="width:100%;max-width:440px;border-radius:10px;display:block;margin-bottom:1rem;" /> -->
+          <div class="img-placeholder">
+            <span class="icon">&#128247;</span>
+            Add your photo here
+          </div>
+        </div>
+
+      </section>
+      <div class="footer-note">&#169; 2026 Arman Sykot &middot; All rights reserved</div>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div class="page" id="page-contact">
+      <section>
+        <div class="section-label">Contact</div>
+        <p class="hero-bio" style="margin-bottom:2rem">Feel free to reach out for research collaborations, questions about quantum computing, or just to connect.</p>
+
+        <div class="contact-grid">
+          <div class="contact-card">
+            <div class="contact-card-label">Email</div>
+            <!-- UPDATE the email address below to your real one -->
+            <div class="contact-card-value"><a href="mailto:armansaikot39@email.com">armansaikot39@email.com</a></div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-label">Institution</div>
+            <div class="contact-card-value"><a href="https://qdl.korea.ac.kr" target="_blank">QuSI Lab, Korea University</a></div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-label">Google Scholar</div>
+            <div class="contact-card-value"><a href="https://scholar.google.com/citations?user=CH59or4AAAAJ&hl=en" target="_blank">View profile &#8594;</a></div>
+          </div>
+          <div class="contact-card">
+            <div class="contact-card-label">ORCID</div>
+            <div class="contact-card-value"><a href="https://orcid.org/0009-0004-6158-6292" target="_blank">0009-0004-6158-6292</a></div>
+          </div>
+        </div>
+      </section>
+      <div class="footer-note">&#169; 2026 Arman Sykot &middot; All rights reserved</div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  const map = { home: 0, hobbies: 1, contact: 2 };
+  document.querySelectorAll('nav a')[map[name]].classList.add('active');
+}
+
+// Wave animation
+const canvas = document.getElementById('wave');
+const ctx = canvas.getContext('2d');
+let t = 0;
+function resize() {
+  canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+  canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+  ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+}
+function draw() {
+  const W = canvas.offsetWidth, H = canvas.offsetHeight;
+  ctx.clearRect(0, 0, W, H);
+  [
+    { amp:11, freq:.019, speed:.025, alpha:.7, color:'#00C9B1' },
+    { amp:6,  freq:.032, speed:.04,  alpha:.4, color:'#8B6FD4' },
+    { amp:3.5,freq:.058, speed:.06,  alpha:.22,color:'#00C9B1' },
+  ].forEach(w => {
+    ctx.beginPath(); ctx.strokeStyle = w.color;
+    ctx.globalAlpha = w.alpha; ctx.lineWidth = 1.5;
+    const mid = H / 2;
+    for (let x = 0; x <= W; x++) {
+      const y = mid + Math.sin(x * w.freq + t * w.speed * 60) * w.amp;
+      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  });
+  ctx.globalAlpha = 1; t += 0.016;
+  requestAnimationFrame(draw);
+}
+resize(); window.addEventListener('resize', resize); draw();
+</script>
+</body>
+</html>
