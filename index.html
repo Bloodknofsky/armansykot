@@ -356,33 +356,66 @@ function showPage(name) {
   document.querySelectorAll('nav a')[map[name]].classList.add('active');
 }
 
-// Wave animation
+// Wave animation with smooth subtle mouse influence
 const canvas = document.getElementById('wave');
 const ctx = canvas.getContext('2d');
 let t = 0;
+let targetX = -999;
+let smoothX = -999;
+let influence = 0;
+let targetInfluence = 0;
+
 function resize() {
   canvas.width = canvas.offsetWidth * window.devicePixelRatio;
   canvas.height = canvas.offsetHeight * window.devicePixelRatio;
   ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
 }
+
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  targetX = e.clientX - rect.left;
+  targetInfluence = 1;
+});
+
+canvas.addEventListener('mouseleave', () => {
+  targetInfluence = 0;
+});
+
 function draw() {
   const W = canvas.offsetWidth, H = canvas.offsetHeight;
   ctx.clearRect(0, 0, W, H);
+
+  // Smooth lerp for position and influence
+  smoothX += (targetX - smoothX) * 0.06;
+  influence += (targetInfluence - influence) * 0.04;
+
   [
     { amp:11, freq:.019, speed:.025, alpha:.7, color:'#00C9B1' },
     { amp:6,  freq:.032, speed:.04,  alpha:.4, color:'#8B6FD4' },
     { amp:3.5,freq:.058, speed:.06,  alpha:.22,color:'#00C9B1' },
   ].forEach(w => {
-    ctx.beginPath(); ctx.strokeStyle = w.color;
-    ctx.globalAlpha = w.alpha; ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.strokeStyle = w.color;
+    ctx.globalAlpha = w.alpha;
+    ctx.lineWidth = 1.5;
     const mid = H / 2;
+
     for (let x = 0; x <= W; x++) {
-      const y = mid + Math.sin(x * w.freq + t * w.speed * 60) * w.amp;
+      let y = mid + Math.sin(x * w.freq + t * w.speed * 60) * w.amp;
+
+      // Smooth gaussian bump around mouse position
+      const dist = x - smoothX;
+      const spread = 90;
+      const bump = Math.exp(-(dist * dist) / (2 * spread * spread));
+      y += Math.sin(t * 4) * 4 * bump * influence;
+
       x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
     ctx.stroke();
   });
-  ctx.globalAlpha = 1; t += 0.016;
+
+  ctx.globalAlpha = 1;
+  t += 0.016;
   requestAnimationFrame(draw);
 }
 resize(); window.addEventListener('resize', resize); draw();
