@@ -116,6 +116,26 @@ canvas#wave{width:100%;height:54px;display:block;margin-bottom:1.75rem}
 .contact-card-value a:hover{text-decoration:underline}
 
 .footer-note{font-size:11px;color:var(--slate);padding-top:2rem;border-top:1px solid var(--border);opacity:.6}
+
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:relative;height:auto;padding:1.25rem 1.25rem 1rem;border-right:none;border-bottom:1px solid var(--border);flex-direction:column;align-items:flex-start}
+  .avatar-wrap{width:64px;height:64px;margin-bottom:0.75rem}
+  .sidebar-inst{margin-bottom:1rem}
+  nav{flex-direction:row;flex-wrap:wrap;gap:4px;margin-bottom:0.75rem}
+  .nav-section-label{display:none}
+  nav a{padding:5px 10px;font-size:12px}
+  .social-links{margin-top:0;padding-top:0.75rem;border-top:1px solid var(--border)}
+  main{padding:1.5rem 1.25rem 3rem}
+  .hero-headline{font-size:30px}
+  .hero-tagline{font-size:14px}
+  .hero-bio{font-size:14px}
+  .contact-grid{grid-template-columns:1fr}
+  .news-item{grid-template-columns:72px 1fr;gap:0.5rem}
+  .pub-card{padding:0.9rem 1rem}
+  .writing-item{padding:0.6rem 0.75rem}
+  .img-placeholder{max-width:100%}
+}
 </style>
 </head>
 <body>
