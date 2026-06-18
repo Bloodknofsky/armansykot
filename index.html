@@ -408,7 +408,8 @@ function draw() {
       const dist = x - smoothX;
       const spread = 90;
       const bump = Math.exp(-(dist * dist) / (2 * spread * spread));
-      y += Math.sin(t * 4) * 4 * bump * influence;
+      const extraFreq = Math.sin(x * 5 + t * 5) * 5 * bump * influence;
+      y += extraFreq;
 
       x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
