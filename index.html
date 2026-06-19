@@ -403,7 +403,7 @@ function draw() {
     const mid = H / 2;
 
     for (let x = 0; x <= W; x++) {
-      let y = mid + Math.sin(x * w.freq + t * w.speed * 60) * w.amp;
+      let y = mid + Math.sin(x * w.freq + t * w.speed * 30) * w.amp;
 
       // Smooth gaussian bump around mouse position
       const dist = x - smoothX;
